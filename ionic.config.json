@@ -1,0 +1,7 @@
+{
+  "name": "quickstart-capacitor-ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
