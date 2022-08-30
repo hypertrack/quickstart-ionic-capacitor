@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      HyperTrack QuickStart App
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,9 +9,96 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+      <ion-title size="large">HyperTrack QuickStart App</ion-title>
     </ion-toolbar>
   </ion-header>
-
-  <div id="container"></div>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div class="content">Device ID: <ion-text class="text-select">{{deviceId?.deviceId}}</ion-text>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-button color="success" expand="block" (click)="start()">Start Tracking</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button color="danger" expand="block" (click)="stop()">Stop Tracking</ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div class="content">Tracking Status: {{status}}</div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-button (click)="getLatestLocation()">Latest Location</ion-button>
+      </ion-col>
+      <ion-col>
+        <div class="content">{{location}}</div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div class="content">Error: {{error}}</div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-accordion-group>
+    <ion-accordion value="first">
+      <ion-item slot="header" color="light">
+        <ion-label>Check All Methods</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        <ion-toolbar>
+          <ion-row>
+            <ion-col>
+              <ion-button expand="block" (click)="mockLocations()">Mock Locations</ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button expand="block" (click)="addGeoTag()">Add Geo Tag</ion-button>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-button expand="block" (click)="setAvailability()">Set Availability</ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button expand="block" (click)="getAvailability()">Get Availability</ion-button>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-button expand="block" (click)="setTrackingNotificationProperties()">Set Tracking Notification
+                Properties</ion-button>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-button expand="block" (click)="requestPermissions()">Request Permissions If Necessary</ion-button>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-button expand="block" (click)="removeAvailabilityListener()">Remove Availability Listener
+              </ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button expand="block" (click)="addAvailabilityListener()">Add Availability Listener</ion-button>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-button expand="block" (click)="syncDevice()">Sync Device Settings</ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button expand="block" (click)="setMetadata()">Set Device Metadata</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-toolbar>
+      </div>
+    </ion-accordion>
+  </ion-accordion-group>
 </ion-content>

@@ -9,6 +9,7 @@
 *.sublime-project
 *.sublime-workspace
 .DS_Store
+.angular/
 Thumbs.db
 UserInterfaceState.xcuserstate
 $RECYCLE.BIN/
@@ -16,6 +17,8 @@ $RECYCLE.BIN/
 *.log
 log.txt
 npm-debug.log*
+android/
+ios/
 
 /.idea
 /.ionic
