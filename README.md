@@ -23,12 +23,12 @@ Android
 <tr>
 <td>
 <p align="center">
-<img src="Images/Device_1.jpeg" width="30%" height="30%">
+<img src="Images/Device_1.jpeg" width="100%" height="100%">
 </p>
 </td>
 <td>
 <p align="center">
-<img src="Images/Device_2.jpeg" width="30%" height="30%">
+<img src="Images/Device_2.jpeg" width="100%" height="100%">
 </p>
 </td>
 </tr>
