@@ -25,3 +25,57 @@
 #container a {
   text-decoration: none;
 }
+
+:root {
+  --ion-safe-area-top: 20px;
+  --ion-safe-area-bottom: 22px;
+}
+
+.content {
+  background-color: #f7f7f7;
+  border: solid 1px #ddd;
+  padding: 10px;
+  height: 100%;
+}
+
+.action-btn {
+  display: block;
+}
+
+.text {
+  white-space: break-spaces;
+}
+
+.footer-title {
+  padding: 10px;
+}
+
+.text-select {
+  -webkit-user-select: all;
+  -ms-user-select: all;
+  user-select: all;
+}
+
+.blinker {
+  border-radius: 5px;
+  width: 3px;
+  height: 3px;
+  margin: 1px;
+  zoom: 5;
+  background:#fb1304;
+  animation: blinker 1s linear infinite;
+}
+
+.track {
+  display: flex
+}
+
+.status {
+  margin-block: auto;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
