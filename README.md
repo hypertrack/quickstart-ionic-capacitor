@@ -69,7 +69,7 @@ compileSdkVersion = 31
 targetSdkVersion = 31
 ```
 
-In ```quickstart-ionic-capacitor/android/app/src/main/AndroidManifest.xml``` update 
+In ```quickstart-ionic-capacitor/android/app/src/main/AndroidManifest.xml``` update ```android:exported="true"```
 
 ```
  <activity
