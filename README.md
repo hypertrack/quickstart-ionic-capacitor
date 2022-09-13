@@ -12,80 +12,25 @@ This repo contains an example ionic app that has everything you need to get star
 [Sign up](https://dashboard.hypertrack.com/signup) for HyperTrack and
 get your publishable key from the [Setup page](https://dashboard.hypertrack.com/setup).
 
-## Screenshots
-<table>
-<tr>
-<th colspan="2">
-Android
-</th>
-</tr>
-
-<tr>
-<td>
-<p align="center">
-<img src="Images/Device_1.jpeg" width="80%" height="80%">
-</p>
-</td>
-<td>
-<p align="center">
-<img src="Images/Device_2.jpeg" width="80%" height="80%">
-</p>
-</td>
-</tr>
-</table>
-
-
-### Set up Firebase
+## Set up Firebase
 
 1. [Set up Firebase Project for quickstart-ionic-capacitor](https://console.firebase.google.com/u/0/)
 2. Sign up for HyperTrack and [fill the FCM Key section in Android paragraph](https://dashboard.hypertrack.com/setup)
 
-## Build quickstart-ionic-capacitor
+## Build the app
 
-Create a ionic build by [build command](https://ionicframework.com/docs/cli/commands/capacitor-build)
+Install dependepcies
+```npm i```
 
-In order to use this plugin, please update the Gradle, AndroidManifest.xml:
+Prepare Ionic build by running [build command](https://ionicframework.com/docs/cli/commands/capacitor-build):
+```ionic capacitor build```
 
-In ```quickstart-ionic-capacitor/android/build.gradle``` update
+Build the app for each platform using corresponding native IDE (Android Studio / Xcode)
 
-```
-allprojects {
-    repositories {
-        google()
-        jcenter()
-        maven {
-            name 'hypertrack'
-            url  'https://s3-us-west-2.amazonaws.com/m2.hypertrack.com/'
-        }
-    }
-}
-```
+This command will open the IDE. If it didn't happen you need to do it manually. 
 
-In ```quickstart-ionic-capacitor/android/variables.gradle``` update
 
-```
-minSdkVersion = 24
-compileSdkVersion = 31
-targetSdkVersion = 31
-```
 
-In ```quickstart-ionic-capacitor/android/app/src/main/AndroidManifest.xml``` update ```android:exported="true"```
-
-```
- <activity
-      android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode"
-      android:name="io.ionic.starter.MainActivity"
-      android:label="@string/title_activity_main"
-      android:theme="@style/AppTheme.NoActionBarLaunch"
-      android:launchMode="singleTask"
-      android:exported="true">
-
-      <intent-filter>
-          <action android:name="android.intent.action.MAIN" />
-          <category android:name="android.intent.category.LAUNCHER" />
-      </intent-filter>
-</activity>
-```
 ## Dashboard
 
 Once your app is running, go to the [dashboard](https://dashboard.hypertrack.com/devices) where you can see a list of all your devices and their live location with ongoing activity on the map.

@@ -8,7 +8,7 @@ import { ChangeDetectorRef } from '@angular/core'
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnDestroy {
-  publishableKey: string = 'jNvgqDgY_j3yj-OwbTQtVcCoVGMOLkmllgV7KUtElL5j3g3nGwNEpLzdOO88KZ1E6rkeGmH7b9spUSFIYM5SkQ'; //'YOUR-PUBLISHABLE-KEY-HERE';
+  publishableKey: string = 'YOUR-PUBLISHABLE-KEY-HERE';
   blockerList: Blocker[] = [];
   hypertrackInstance: HyperTrackSdkInstance;
   deviceId: Record<string, string> = {};
