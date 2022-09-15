@@ -25,11 +25,42 @@ Install dependepcies
 Prepare Ionic build by running [build command](https://ionicframework.com/docs/cli/commands/capacitor-build):
 ```ionic capacitor build```
 
+This command will generate platform files in `ios` and `android` folders
+
+You need to add more changes to `android` folder in order for app to work 
+
+#### Add Hypertrack repository
+
+In ```quickstart-ionic-capacitor/android/build.gradle```:
+
+```
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven {
+            name 'hypertrack'
+            url  'https://s3-us-west-2.amazonaws.com/m2.hypertrack.com/'
+        }
+    }
+}
+```
+
+#### Update Android SDK versions
+
+In ```quickstart-ionic-capacitor/android/variables.gradle```:
+
+```
+minSdkVersion = 24
+compileSdkVersion = 31
+targetSdkVersion = 31
+```
+
+#### Build
+
 Build the app for each platform using corresponding native IDE (Android Studio / Xcode)
 
 This command will open the IDE. If it didn't happen you need to do it manually. 
-
-
 
 ## Dashboard
 
