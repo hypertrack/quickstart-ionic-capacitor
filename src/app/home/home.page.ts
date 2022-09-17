@@ -13,9 +13,9 @@ export class HomePage implements OnDestroy {
   hypertrackInstance: HyperTrackSdkInstance;
   deviceId: Record<string, string> = {};
   status: string = 'NA';
-  stateChangeListner;
+  trackingStateChangeListner;
   error: string = 'NA';
-  location = 'NA';
+  availabilityStatus: any = 'NA';
   isTracking;
   availabilityStateChange;
   constructor(private alertController: AlertController, private changeRef: ChangeDetectorRef) {
@@ -30,6 +30,8 @@ export class HomePage implements OnDestroy {
       this.hypertrackInstance = result.hyperTrackInstance;
       await this.getDeviceId();
       await this.addTrackingListener();
+      await this.addAvailabilityListener();
+      await this.getAvailability();
       await this.hypertrackInstance.setDeviceName({ name: 'Quickstart Ionic' });
       this.isTracking = await this.isTrackingStatus()
       if (this.isTracking === true) {
@@ -101,7 +103,7 @@ export class HomePage implements OnDestroy {
   }
 
   async getTrackingStateChange() {
-    this.stateChangeListner = await this.hypertrackInstance.addListener(
+    this.trackingStateChangeListner = await this.hypertrackInstance.addListener(
       'trackingStateChange',
       (info: any) => {
         if (info.status === 'start') {
@@ -115,22 +117,6 @@ export class HomePage implements OnDestroy {
         this.changeRef.detectChanges();
       }
     );
-  }
-
-  getLatestLocation() {
-    this.isTrackingStatus().then((status) => {
-      if (status) {
-        this.hypertrackInstance.getLatestLocation((res, err) => {
-          if (res) {
-            this.location = JSON.stringify(res.location);
-            this.changeRef.detectChanges();
-          } else {
-            console.log(err);
-            this.showAlert('Error', err);
-          }
-        });
-      }
-    });
   }
 
   async isTrackingStatus() {
@@ -166,10 +152,9 @@ export class HomePage implements OnDestroy {
     }
   }
 
-  async setAvailability() {
+  async setAvailability(value:boolean) {
     try {
-      await this.hypertrackInstance.setAvailability({ isAvailable: true });
-      this.showAlert('Message', JSON.stringify({ isAvailable: true }));
+      await this.hypertrackInstance.setAvailability({ isAvailable: value });
     } catch (error) {
       console.log(error);
       this.showAlert('Error', error);
@@ -179,7 +164,8 @@ export class HomePage implements OnDestroy {
   async getAvailability() {
     try {
       const res = await this.hypertrackInstance.getAvailability();
-      this.showAlert('Availability', JSON.stringify(res));
+      this.availabilityStatus = res.status;
+      this.changeRef.detectChanges();
     } catch (error) {
       console.log(error);
       this.showAlert('Error', error);
@@ -207,22 +193,10 @@ export class HomePage implements OnDestroy {
     }
   }
 
-  async removeAvailabilityListener() {
-    try {
-      await this.hypertrackInstance.removeAvailabilityListener();
-      this.availabilityStateChange.remove();
-      this.showAlert('Message', 'addAvailability Listener removed');
-    } catch (error) {
-      console.log(error);
-      this.showAlert('Error', error);
-    }
-  }
-
   async addAvailabilityListener() {
     try {
       await this.hypertrackInstance.addAvailabilityListener();
       this.getAvailabilityStateChange();
-      this.showAlert('Message', 'addAvailability Listener added');
     } catch (error) {
       console.log(error);
       this.showAlert('Error', error);
@@ -253,7 +227,12 @@ export class HomePage implements OnDestroy {
     this.availabilityStateChange = await this.hypertrackInstance.addListener(
       'availabilityStateChange',
       (info: any) => {
-        this.showAlert('Availability State', JSON.stringify(info));
+        if (info?.error) {
+          this.availabilityStatus = info.error;
+        } else {
+          this.availabilityStatus = info.status;
+        }
+        this.changeRef.detectChanges();
       }
     );
   }
@@ -269,7 +248,10 @@ export class HomePage implements OnDestroy {
   
   ngOnDestroy() {
     this.hypertrackInstance.removeTrackingListener().then(() => {
-      this.stateChangeListner.remove();
+      this.trackingStateChangeListner.remove();
+    });
+    this.hypertrackInstance.removeAvailabilityListener().then(() => {
+      this.availabilityStateChange.remove();
     });
   }
 }

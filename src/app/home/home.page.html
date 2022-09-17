@@ -34,15 +34,20 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-button (click)="getLatestLocation()">Latest Location</ion-button>
-      </ion-col>
-      <ion-col>
-        <div class="content">{{location}}</div>
+        <div class="content">Error: {{error}}</div>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
-        <div class="content">Error: {{error}}</div>
+          <ion-button expand="block" color="success" (click)="setAvailability(true)">Set Availability True</ion-button>
+      </ion-col>
+      <ion-col>
+          <ion-button expand="block" color="danger"  (click)="setAvailability(false)">Set Availability False</ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div class="content">Availability Status: {{availabilityStatus}}</div>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -63,14 +68,6 @@
           </ion-row>
           <ion-row>
             <ion-col>
-              <ion-button expand="block" (click)="setAvailability()">Set Availability</ion-button>
-            </ion-col>
-            <ion-col>
-              <ion-button expand="block" (click)="getAvailability()">Get Availability</ion-button>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
               <ion-button expand="block" (click)="setTrackingNotificationProperties()">Set Tracking Notification
                 Properties</ion-button>
             </ion-col>
@@ -78,15 +75,6 @@
           <ion-row>
             <ion-col>
               <ion-button expand="block" (click)="requestPermissions()">Request Permissions If Necessary</ion-button>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              <ion-button expand="block" (click)="removeAvailabilityListener()">Remove Availability Listener
-              </ion-button>
-            </ion-col>
-            <ion-col>
-              <ion-button expand="block" (click)="addAvailabilityListener()">Add Availability Listener</ion-button>
             </ion-col>
           </ion-row>
           <ion-row>
