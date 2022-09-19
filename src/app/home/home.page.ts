@@ -7,6 +7,7 @@ import { ChangeDetectorRef } from '@angular/core'
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
+
 export class HomePage implements OnDestroy {
   publishableKey: string = 'YOUR-PUBLISHABLE-KEY-HERE';
   blockerList: Blocker[] = [];
