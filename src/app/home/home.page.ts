@@ -247,6 +247,36 @@ export class HomePage implements OnDestroy {
     await alert.present();
   }
   
+  async getAvailabilityStatus() {
+    try {
+      const result = await this.hypertrackInstance.getAvailability();
+      this.showAlert('getAvailabilityStatus called', JSON.stringify(result));
+    } catch (error) {
+      console.log(error);
+      this.showAlert('Error', error);
+    }
+  }
+
+  async isRunning() {
+    try {
+      const result = await this.hypertrackInstance.isRunning();
+      this.showAlert('isRunning called', JSON.stringify(result));
+    } catch (error) {
+      console.log(error);
+      this.showAlert('Error', error);
+    }
+  }
+
+  async isTrackingMethod() {
+    try {
+      const result = await this.hypertrackInstance.isTracking();
+      this.showAlert('isRunning called', JSON.stringify(result));
+    } catch (error) {
+      console.log(error);
+      this.showAlert('Error', error);
+    }
+  }
+
   ngOnDestroy() {
     this.hypertrackInstance.removeTrackingListener().then(() => {
       this.trackingStateChangeListner.remove();
