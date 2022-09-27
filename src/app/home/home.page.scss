@@ -55,3 +55,27 @@
   -ms-user-select: all;
   user-select: all;
 }
+
+.blinker {
+  border-radius: 5px;
+  width: 3px;
+  height: 3px;
+  margin: 1px;
+  zoom: 5;
+  background:#fb1304;
+  animation: blinker 1s linear infinite;
+}
+
+.track {
+  display: flex
+}
+
+.status {
+  margin-block: auto;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}

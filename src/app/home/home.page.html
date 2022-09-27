@@ -27,14 +27,17 @@
         <ion-button color="danger" expand="block" (click)="stop()">Stop Tracking</ion-button>
       </ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row *ngIf="trackingStatus">
       <ion-col>
-        <div class="content">Tracking Status: {{status}}</div>
+        <div class="track">
+          <div class="blinker"></div>
+          <div class="status">Tracking in on... </div>
+        </div>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
-        <div class="content">Error: {{error}}</div>
+        <div class="content">Tracking State Change: {{trackingStateChange}}</div>
       </ion-col>
     </ion-row>
     <ion-row>
@@ -47,7 +50,7 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <div class="content">Availability Status: {{availabilityStatus}}</div>
+        <div class="content">Availability State Change: {{availabilityStatus}}</div>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -66,13 +69,11 @@
               <ion-button expand="block" (click)="addGeoTag()">Add Geo Tag</ion-button>
             </ion-col>
           </ion-row>
-          <ion-row>
+          <ion-row *ngIf="platform.is('android')">
             <ion-col>
               <ion-button expand="block" (click)="setTrackingNotificationProperties()">Set Tracking Notification
                 Properties</ion-button>
             </ion-col>
-          </ion-row>
-          <ion-row>
             <ion-col>
               <ion-button expand="block" (click)="requestPermissions()">Request Permissions If Necessary</ion-button>
             </ion-col>
@@ -87,10 +88,10 @@
           </ion-row>
           <ion-row>
             <ion-col>
-              <ion-button expand="block" (click)="isTrackingMethod()">isTracking</ion-button>
+              <ion-button expand="block" (click)="isTrackingMethod()">is-Tracking</ion-button>
             </ion-col>
             <ion-col>
-              <ion-button expand="block" (click)="isRunning()">isRunning</ion-button>
+              <ion-button expand="block" (click)="isRunning()">is-Running</ion-button>
             </ion-col>
             <ion-col>
               <ion-button expand="block" (click)="getAvailabilityStatus()">Get Availability Status</ion-button>

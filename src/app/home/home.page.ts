@@ -1,7 +1,9 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Blocker, HyperTrack, HyperTrackSdkInstance } from 'hypertrack-capacitor-plugin';
 import { AlertController } from '@ionic/angular';
-import { ChangeDetectorRef } from '@angular/core'
+import { ChangeDetectorRef } from '@angular/core';
+import { Platform } from '@ionic/angular';
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -13,20 +15,22 @@ export class HomePage implements OnDestroy {
   blockerList: Blocker[] = [];
   hypertrackInstance: HyperTrackSdkInstance;
   deviceId: Record<string, string> = {};
-  status: string = 'NA';
+  trackingStatus: boolean = false;
   trackingStateChangeListner;
-  error: string = 'NA';
   availabilityStatus: any = 'NA';
-  isTracking;
   availabilityStateChange;
-  constructor(private alertController: AlertController, private changeRef: ChangeDetectorRef) {
+  trackingStateChange: string = 'NA';
+  constructor(private alertController: AlertController, private changeRef: ChangeDetectorRef,public platform: Platform) {
     HyperTrack.enableDebugLogging();
     this.initialize();
   }
 
   async initialize() {
     try {
-      await this.getBlocker();
+      /* Blocker is not available for IOS */
+      if (this.platform.is('android')) {
+        await this.getBlocker();
+      }
       const result = await HyperTrack.ininitialize(this.publishableKey);
       this.hypertrackInstance = result.hyperTrackInstance;
       await this.getDeviceId();
@@ -34,12 +38,7 @@ export class HomePage implements OnDestroy {
       await this.addAvailabilityListener();
       await this.getAvailability();
       await this.hypertrackInstance.setDeviceName({ name: 'Quickstart Ionic' });
-      this.isTracking = await this.isTrackingStatus()
-      if (this.isTracking === true) {
-        this.status = 'Tracking has started...';
-      } else if (this.isTracking === false) {
-        this.status = `Tracking hasn't started...`;
-      }
+      this.trackingStatus = await this.isTrackingStatus()
       this.changeRef.detectChanges();
     } catch (error) {
       console.log(error);
@@ -63,8 +62,9 @@ export class HomePage implements OnDestroy {
 
   async start() {
     try {
-
-      await this.getBlocker();
+      if (this.platform.is('android')) {
+        await this.getBlocker();
+      }
       await this.hypertrackInstance.start();
     } catch (error) {
       console.log(error);
@@ -74,8 +74,8 @@ export class HomePage implements OnDestroy {
 
   async stop() {
     try {
-      const isTracking = await this.isTrackingStatus();
-      if (isTracking) {
+      this.trackingStatus = await this.isTrackingStatus();
+      if (this.trackingStatus) {
         await this.hypertrackInstance.stop();
       }
     } catch (error) {
@@ -107,13 +107,11 @@ export class HomePage implements OnDestroy {
     this.trackingStateChangeListner = await this.hypertrackInstance.addListener(
       'trackingStateChange',
       (info: any) => {
+        this.trackingStateChange = JSON.stringify(info);
         if (info.status === 'start') {
-          this.status = 'Tracking has started...';
-        } else if (info.status === 'stop') {
-          this.status = 'Tracking has stopped...';
-        } else if (info.error) {
-          console.log(info.error);
-          this.status = JSON.stringify(info.error);
+          this.trackingStatus = true;
+        } else {
+          this.trackingStatus = false;
         }
         this.changeRef.detectChanges();
       }
@@ -165,8 +163,6 @@ export class HomePage implements OnDestroy {
   async getAvailability() {
     try {
       const res = await this.hypertrackInstance.getAvailability();
-      this.availabilityStatus = res.status;
-      this.changeRef.detectChanges();
     } catch (error) {
       console.log(error);
       this.showAlert('Error', error);
@@ -228,11 +224,7 @@ export class HomePage implements OnDestroy {
     this.availabilityStateChange = await this.hypertrackInstance.addListener(
       'availabilityStateChange',
       (info: any) => {
-        if (info?.error) {
-          this.availabilityStatus = info.error;
-        } else {
-          this.availabilityStatus = info.status;
-        }
+        this.availabilityStatus = JSON.stringify(info);
         this.changeRef.detectChanges();
       }
     );
@@ -270,7 +262,7 @@ export class HomePage implements OnDestroy {
   async isTrackingMethod() {
     try {
       const result = await this.hypertrackInstance.isTracking();
-      this.showAlert('isRunning called', JSON.stringify(result));
+      this.showAlert('isTracking called', JSON.stringify(result));
     } catch (error) {
       console.log(error);
       this.showAlert('Error', error);
