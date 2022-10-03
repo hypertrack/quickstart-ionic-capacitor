@@ -31,7 +31,7 @@ export class HomePage implements OnDestroy {
       if (this.platform.is('android')) {
         await this.getBlocker();
       }
-      const result = await HyperTrack.ininitialize(this.publishableKey);
+      const result = await HyperTrack.initialize(this.publishableKey);
       this.hypertrackInstance = result.hyperTrackInstance;
       await this.getDeviceId();
       await this.addTrackingListener();
