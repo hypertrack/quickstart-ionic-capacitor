@@ -1,7 +1,9 @@
-alias a := run-android
+alias ra := run-android
 alias s := sync
 alias si := sync-ios
-alias r := refresh-ht
+alias r := refresh-plugin-in-node_modules
+alias ag := add-plugin-from-github
+alias oi := open-ios
 
 sync:
     ionic capacitor sync
@@ -26,7 +28,12 @@ refresh-deps:
     rm package-lock.json
     npm i
 
-refresh-ht:
+refresh-plugin-in-node_modules:
     rm -r node_modules/hypertrack-sdk-ionic-capacitor
     npm i
 
+add-plugin-from-github branch:
+    npm i https://github.com/hypertrack/sdk-ionic-capacitor#{{branch}}
+
+open-ios:
+    open ios/App/App.xcworkspace
