@@ -1,25 +1,32 @@
-import { Component, OnDestroy } from '@angular/core';
-import { Subscription, HyperTrack, HyperTrackError } from 'hypertrack-sdk-ionic-capacitor';
-import { AlertController } from '@ionic/angular';
-import { ChangeDetectorRef } from '@angular/core';
-import { Platform } from '@ionic/angular';
-
-const PUBLISHABLE_KEY = "PUT_YOUR_PUBLISHABLE_KEY_HERE"
+import { Component, OnDestroy } from "@angular/core";
+import {
+  Subscription,
+  HyperTrack,
+  HyperTrackError,
+  LocationError,
+  Location,
+  LocationWithDeviation,
+  Result,
+} from "hypertrack-sdk-ionic-capacitor";
+import { AlertController } from "@ionic/angular";
+import { ChangeDetectorRef } from "@angular/core";
+import { Platform } from "@ionic/angular";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: "app-home",
+  templateUrl: "home.page.html",
+  styleUrls: ["home.page.scss"],
 })
 export class HomePage implements OnDestroy {
-  hyperTrack: HyperTrack;
-  trackingSubscription: Subscription;
-  availabilitySubscription: Subscription;
+  deviceId = "N/A";
   errorsSubscription: Subscription;
-  deviceId = 'N/A';
-  isTrackingText = 'N/A';
-  isAvailableText = 'N/A';
-  errorsText = 'N/A';
+  isTrackingSubscription: Subscription;
+  isAvailableSubscription: Subscription;
+  locationSubscription: Subscription;
+  errorsText = "N/A";
+  isTrackingText = "N/A";
+  isAvailableText = "N/A";
+  locationText = "N/A";
 
   constructor(
     private alertController: AlertController,
@@ -27,106 +34,207 @@ export class HomePage implements OnDestroy {
     private changeRef: ChangeDetectorRef
   ) {
     platform.ready().then((readySource) => {
-      console.log("Platform ready", readySource)
+      console.log("Platform ready", readySource);
       this.initialize();
-    })
+    });
   }
 
   async initialize() {
     try {
-      console.log("Initializing HyperTrack")
-      this.hyperTrack = await HyperTrack.initialize(
-        PUBLISHABLE_KEY,
-        { loggingEnabled: true }
-      );
-      console.log(this.hyperTrack)
+      this.deviceId = await HyperTrack.getDeviceId();
+      console.log(`Device Id: ${this.deviceId}`);
 
-      this.deviceId = await this.hyperTrack.getDeviceId();
-      console.log(`Device Id: ${this.deviceId}`)
-
-      let name = 'Quickstart Ionic'
-      console.log("Setting name to", name)
-      this.hyperTrack.setName(name);
+      let name = "Quickstart Ionic";
+      console.log("Setting name to", name);
+      HyperTrack.setName(name);
 
       let metadata = {
         source: name,
-        value: Math.random()
-      }
-      console.log("Setting metadata to", metadata)
-      this.hyperTrack.setMetadata(metadata);
+        value: Math.random(),
+      };
+      console.log("Setting metadata to", metadata);
+      HyperTrack.setMetadata(metadata);
 
-      this.hyperTrack.subscribeToTracking((isTracking) => { 
-        console.log("isTracking listener", isTracking)
-        this.isTrackingText = JSON.stringify(isTracking) 
+      HyperTrack.subscribeToErrors((errors: HyperTrackError[]) => {
+        let result = getErrorsText(errors);
+        console.log("Listener errors: ", result);
+        this.errorsText = result;
         this.changeRef.detectChanges();
       });
-      this.hyperTrack.subscribeToAvailability((isAvailable) => { 
-        console.log("isAvailable listener", isAvailable)
-        this.isAvailableText = JSON.stringify(isAvailable)
+
+      HyperTrack.subscribeToIsTracking((isTracking) => {
+        console.log("isTracking listener", isTracking);
+        this.isTrackingText = JSON.stringify(isTracking);
         this.changeRef.detectChanges();
-       });
-      this.hyperTrack.subscribeToErrors((errors) => { 
-        const text = JSON.stringify(errors) 
-        console.log("errors listener", errors, text)
-        this.errorsText = text
+      });
+
+      HyperTrack.subscribeToIsAvailable((isAvailable) => {
+        console.log("isAvailable listener", isAvailable);
+        this.isAvailableText = JSON.stringify(isAvailable);
+        this.changeRef.detectChanges();
+      });
+
+      HyperTrack.subscribeToLocation((locationResult) => {
+        this.locationText = getLocationResponseText(locationResult);
+        console.log("location listener", location);
         this.changeRef.detectChanges();
       });
 
       this.changeRef.detectChanges();
     } catch (error) {
-      console.log("Error", error)
+      console.log("Error", error);
     }
   }
 
-  async startHyperTrack() {
-    this.hyperTrack.startTracking();
+  async addGeotag() {}
+
+  async addGeotagWithExpectedLocation() {}
+
+  async getErrors() {
+    let errors = await HyperTrack.getErrors();
+    let result = getErrorsText(errors);
+    console.log("Errors:", result);
+    this.showAlert("errors", result);
   }
 
-  async stopHyperTrack() {
-    this.hyperTrack.stopTracking();
+  async getIsAvailable() {
+    const available = await HyperTrack.getIsAvailable();
+    console.log("isAvailable", available);
+    this.showAlert("isAvailable", `${available}`);
   }
 
-  async getAvailabilityStatus() {
-    const res = await this.hyperTrack.isAvailable();
-    this.showAlert('Message', res.toString());
-  }
-
-  async isTracking() {
-    const res = await this.hyperTrack.isTracking();
-    this.showAlert('Message', res.toString());
-  }
-
-  async syncDevice() {
-    await this.hyperTrack.sync();
-    this.showAlert('Message', 'sync called');
-  }
-
-  async addGeoTag() {
-    let data = { "orderId": "ABC00001" };
-    const result = await this.hyperTrack.addGeotag(data);
-    this.showAlert('Message', `geotag result ${JSON.stringify(result)}`);
+  async getIsTracking() {
+    const isTracking = await HyperTrack.getIsTracking();
+    console.log("isTracking", isTracking);
+    this.showAlert("isTracking", `${isTracking}`);
   }
 
   async getLocation() {
-    const result = await this.hyperTrack.getLocation();
-    this.showAlert('Message', `geotag result ${JSON.stringify(result)}`);
+    try {
+      const result = await HyperTrack.getLocation();
+      this.showAlert("Location:", getLocationResponseText(result));
+    } catch (error) {
+      console.log("error", error);
+    }
   }
 
-  async setAvailability(value: boolean) {
-    this.hyperTrack.setAvailability(value);
+  async getMetadata() {
+    const metadata = await HyperTrack.getMetadata();
+    console.log("Metadata:", metadata);
+    this.showAlert("Metadata", JSON.stringify(metadata));
+  }
+
+  async getName() {
+    const name = await HyperTrack.getName();
+    console.log("Name:", name);
+    this.showAlert("Name", name);
+  }
+
+  async locate() {
+    HyperTrack.locate((locationResult: Result<Location, HyperTrackError[]>) => {
+      try {
+        let result = getLocateResponseText(locationResult);
+        console.log("Locate:", result);
+        this.showAlert("Result", result);
+      } catch (error) {
+        console.log("error", error);
+      }
+    });
+    console.log("Locate started");
+  }
+
+  async setIsAvailable(isAvailable: boolean) {
+    HyperTrack.setIsAvailable(isAvailable);
+  }
+
+  async setIsTracking(isTracking: boolean) {
+    HyperTrack.setIsTracking(isTracking);
   }
 
   async showAlert(header: string, message: string) {
-    console.log(message)
+    console.log(message);
     const alert = await this.alertController.create({
       header: header,
       message: message,
-      buttons: ['OK'],
+      buttons: ["OK"],
     });
     await alert.present();
   }
 
-  ngOnDestroy(): void {
-  
+  ngOnDestroy(): void {}
+}
+
+function getLocateResponseText(response: Result<Location, HyperTrackError[]>) {
+  switch (response.type) {
+    case "success":
+      return `Location: ${JSON.stringify(
+        [response.value.latitude, response.value.longitude],
+        null,
+        4
+      )}`;
+    case "failure":
+      return `Errors:\n${getErrorsText(response.value)}`;
+  }
+}
+
+function getLocationResponseText(
+  response: Result<Location, LocationError>
+): string {
+  switch (response.type) {
+    case "success":
+      return `Location: ${JSON.stringify(
+        [response.value.latitude, response.value.longitude],
+        null,
+        4
+      )}`;
+    case "failure":
+      switch (response.value.type) {
+        case "notRunning":
+          return "Not running";
+        case "starting":
+          return "Starting";
+        case "errors":
+          return `Errors:\n${getErrorsText(response.value.value)}`;
+      }
+    default:
+      return `Unknown response: $response`;
+  }
+}
+
+function getLocationWithDeviationResponseText(
+  response: Result<LocationWithDeviation, LocationError>
+) {
+  switch (response.type) {
+    case "success":
+      return `Location: ${JSON.stringify(
+        [response.value.location.latitude, response.value.location.longitude],
+        null,
+        4
+      )}\nDeviation: ${response.value.deviation}`;
+    case "failure":
+      switch (response.value.type) {
+        case "notRunning":
+          return "Not running";
+        case "starting":
+          return "Starting";
+        case "errors":
+          return `Errors:\n${getErrorsText(response.value.value)}`;
+      }
+  }
+}
+
+function getErrorsText(errors: HyperTrackError[]) {
+  if (errors.length === 0) {
+    return "No errors";
+  } else {
+    return errors
+      .map((error) => {
+        if (typeof error === "string") {
+          return error as string;
+        } else {
+          return `Failed to parse error: ${JSON.stringify(error)}`;
+        }
+      })
+      .join("\n");
   }
 }

@@ -1,6 +1,7 @@
 alias al := add-plugin-local
 alias ag := add-plugin-from-github
 alias oi := open-ios
+alias os := open-src
 alias r := refresh-plugin-in-node_modules
 alias ra := run-android
 alias s := sync
@@ -30,6 +31,9 @@ hooks:
 
 open-ios: hooks
     open ios/App/App.xcworkspace
+
+open-src: hooks
+    code src/app/home/home.page.ts
 
 refresh-deps: hooks
     rm -r node_modules
