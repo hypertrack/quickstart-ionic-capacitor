@@ -7,18 +7,25 @@ alias ra := run-android
 alias s := sync
 alias si := sync-ios
 
+LOCAL_PLUGIN_PATH := "../sdk-ionic-capacitor"
+
 add-plugin-local: hooks
-    #!/usr/bin/env sh
-    LOCAL_PLUGIN_PATH="../sdk-ionic-capacitor"
-    npm i $LOCAL_PLUGIN_PATH --save
-    cd $LOCAL_PLUGIN_PATH
-    npm run build
+    npm i {{LOCAL_PLUGIN_PATH}} --save
+    just build-local
 
 add-plugin-from-github branch: hooks
     @echo "Adding plugin from github does not work for Ionic Capacitor. Use 'just al' to use local dependency"
     @exit 1 
 
-
+build-local:
+    #!/usr/bin/env sh
+    if cat package.json | grep -q  {{LOCAL_PLUGIN_PATH}}; then \
+        cd {{LOCAL_PLUGIN_PATH}}; \
+        npm run build; \
+    else \
+        echo "No local dependency"; \
+    fi
+    
 check-outdated:
     npm outdated
 
@@ -44,8 +51,13 @@ refresh-plugin-in-node_modules:
     rm -r node_modules/hypertrack-sdk-ionic-capacitor
     npm i
 
-run-android: sync-android hooks
-    ionic capacitor run android
+run-android target="": sync-android hooks
+    #!/usr/bin/env sh
+    if [ -z "{{target}}" ]; then \
+        ionic capacitor run android; \
+    else \
+        ionic capacitor run android --target {{target}}; \
+    fi
 
 sync: hooks
     ionic capacitor sync
@@ -54,6 +66,7 @@ sync-ios: hooks
     ionic capacitor sync ios
 
 sync-android: hooks
+    just build-local
     ionic capacitor sync android
 
 update-deps: hooks
