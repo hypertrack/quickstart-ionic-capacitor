@@ -52,7 +52,7 @@ export class HomePage implements OnDestroy {
         source: name,
         value: Math.random(),
       };
-      console.log("Setting metadata to", metadata);
+      console.log("Setting metadata to", JSON.stringify(metadata));
       HyperTrack.setMetadata(metadata);
 
       HyperTrack.subscribeToErrors((errors: HyperTrackError[]) => {
