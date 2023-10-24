@@ -75,6 +75,7 @@ export class HomePage implements OnDestroy {
       });
 
       HyperTrack.subscribeToLocation((locationResult) => {
+        console.log("location listener", locationResult);
         this.locationText = getLocationResponseText(locationResult);
         console.log("location listener", location);
         this.changeRef.detectChanges();
@@ -86,9 +87,30 @@ export class HomePage implements OnDestroy {
     }
   }
 
-  async addGeotag() {}
+  async addGeotag() {
+    let data = {
+      geotag: "data",
+    };
+    let result = await HyperTrack.addGeotag(data);
+    let resultText = getLocationResponseText(result);
+    console.log("Geotag:", resultText);
+    this.showAlert("Geotag", resultText);
+  }
 
-  async addGeotagWithExpectedLocation() {}
+  async addGeotagWithExpectedLocation() {
+    let data = {
+      geotag: "data",
+      withExpectedLocation: "true",
+    };
+    let expectedLocation = {
+      latitude: 37.33182,
+      longitude: -122.03118,
+    };
+    let result = await HyperTrack.addGeotag(data, expectedLocation);
+    let resultText = getLocationWithDeviationResponseText(result);
+    console.log("Geotag with expected location:", resultText);
+    this.showAlert("Geotag with expected location", resultText);
+  }
 
   async getErrors() {
     let errors = await HyperTrack.getErrors();
@@ -110,12 +132,8 @@ export class HomePage implements OnDestroy {
   }
 
   async getLocation() {
-    try {
-      const result = await HyperTrack.getLocation();
-      this.showAlert("Location:", getLocationResponseText(result));
-    } catch (error) {
-      console.log("error", error);
-    }
+    const result = await HyperTrack.getLocation();
+    this.showAlert("Location:", getLocationResponseText(result));
   }
 
   async getMetadata() {
@@ -132,13 +150,9 @@ export class HomePage implements OnDestroy {
 
   async locate() {
     HyperTrack.locate((locationResult: Result<Location, HyperTrackError[]>) => {
-      try {
-        let result = getLocateResponseText(locationResult);
-        console.log("Locate:", result);
-        this.showAlert("Result", result);
-      } catch (error) {
-        console.log("error", error);
-      }
+      let result = getLocateResponseText(locationResult);
+      console.log("Locate:", result);
+      this.showAlert("Locate:", result);
     });
     console.log("Locate started");
   }
