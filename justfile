@@ -59,14 +59,13 @@ run-android target="": sync-android hooks
         ionic capacitor run android --target {{target}}; \
     fi
 
-sync: hooks
+sync: hooks build-local
     ionic capacitor sync
 
-sync-ios: hooks
+sync-ios: hooks build-local
     ionic capacitor sync ios
 
-sync-android: hooks
-    just build-local
+sync-android: hooks build-local
     ionic capacitor sync android
 
 update-deps: hooks
