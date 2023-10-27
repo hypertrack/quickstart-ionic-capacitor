@@ -5,6 +5,7 @@ alias os := open-src
 alias r := refresh-plugin-in-node_modules
 alias ra := run-android
 alias s := sync
+alias sa := sync-android
 alias si := sync-ios
 
 LOCAL_PLUGIN_PATH := "../sdk-ionic-capacitor"
