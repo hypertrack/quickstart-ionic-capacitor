@@ -24,7 +24,7 @@
     "@capacitor/core": "^4.6.0",
     "@capacitor/ios": "^4.6.0",
     "@ionic/angular": "^6.1.9",
-    "hypertrack-sdk-ionic-capacitor": "1.0.0"
+    "hypertrack-sdk-ionic-capacitor": "2.0.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.0.0",

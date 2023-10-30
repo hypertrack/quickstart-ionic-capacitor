@@ -1,13 +1,10 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Quickstart Ionic Capacitor
-    </ion-title>
+    <ion-title> Quickstart Ionic Capacitor </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Quickstart Ionic Capacitor</ion-title>
@@ -15,32 +12,17 @@
   </ion-header>
 
   <ion-grid>
-
     <ion-row>
       <ion-col>
-        <div class="content">Device ID: <ion-text class="text-select">{{deviceId}}</ion-text>
+        <div class="content">
+          Device ID: <ion-text class="text-select">{{deviceId}}</ion-text>
         </div>
       </ion-col>
     </ion-row>
 
     <ion-row>
       <ion-col>
-        <ion-button color="success" expand="block" (click)="startHyperTrack()">Start Tracking</ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button color="danger" expand="block" (click)="stopHyperTrack()">Stop Tracking</ion-button>
-      </ion-col>
-    </ion-row>
-
-    <ion-row>
-      <ion-col>
-        <div class="content">isTracking: {{isTrackingText}}</div>
-      </ion-col>
-    </ion-row>
-
-    <ion-row>
-      <ion-col>
-        <div class="content">isAvailable: {{isAvailableText}}</div>
+        <div class="content">Location: {{locationText}}</div>
       </ion-col>
     </ion-row>
 
@@ -52,39 +34,89 @@
 
     <ion-row>
       <ion-col>
-          <ion-button expand="block" color="success" (click)="setAvailability(true)">Set Available</ion-button>
+        <ion-button color="success" expand="block" (click)="setIsTracking(true)"
+          >Start Tracking</ion-button
+        >
       </ion-col>
       <ion-col>
-          <ion-button expand="block" color="danger"  (click)="setAvailability(false)">Set Unavailable</ion-button>
+        <div class="content">isTracking: {{isTrackingText}}</div>
+      </ion-col>
+      <ion-col>
+        <ion-button color="danger" expand="block" (click)="setIsTracking(false)"
+          >Stop Tracking</ion-button
+        >
       </ion-col>
     </ion-row>
 
     <ion-row>
       <ion-col>
-        <ion-button expand="block" (click)="isTracking()">isTracking</ion-button>
+        <ion-button expand="block" (click)="setIsAvailable(true)"
+          >Set Available</ion-button
+        >
       </ion-col>
       <ion-col>
-        <ion-button expand="block" (click)="getAvailabilityStatus()">isAvailable</ion-button>
+        <div class="content">isAvailable: {{isAvailableText}}</div>
+      </ion-col>
+      <ion-col>
+        <ion-button expand="block" (click)="setIsAvailable(false)"
+          >Set Unavailable</ion-button
+        >
       </ion-col>
     </ion-row>
 
     <ion-row>
       <ion-col>
-        <ion-button expand="block" (click)="addGeoTag()">Add Geotag</ion-button>
+        <ion-button expand="block" (click)="addGeotag()">Add geotag</ion-button>
       </ion-col>
     </ion-row>
 
     <ion-row>
       <ion-col>
-        <ion-button expand="block" (click)="getLocation()">Get location</ion-button>
+        <ion-button expand="block" (click)="addGeotagWithExpectedLocation()"
+          >Add geotag with expected location</ion-button
+        >
       </ion-col>
     </ion-row>
 
     <ion-row>
       <ion-col>
-        <ion-button expand="block" (click)="syncDevice()">Sync</ion-button>
+        <ion-button expand="block" (click)="locate()">Locate user</ion-button>
       </ion-col>
     </ion-row>
-  
+
+    <ion-row>
+      <ion-col>
+        <ion-button expand="block" (click)="getErrors()">Get errors</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button expand="block" (click)="getIsAvailable()"
+          >Get isAvailable</ion-button
+        >
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-button expand="block" (click)="getIsTracking()"
+          >Get isTracking</ion-button
+        >
+      </ion-col>
+      <ion-col>
+        <ion-button expand="block" (click)="getLocation()"
+          >Get location</ion-button
+        >
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-button expand="block" (click)="getMetadata()"
+          >Get metadata</ion-button
+        >
+      </ion-col>
+      <ion-col>
+        <ion-button expand="block" (click)="getName()">Get name</ion-button>
+      </ion-col>
+    </ion-row>
   </ion-grid>
 </ion-content>
