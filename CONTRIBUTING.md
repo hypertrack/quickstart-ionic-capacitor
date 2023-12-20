@@ -1,4 +1,5 @@
 ## Install global dependencies
+
 The base requirements are [Node](https://nodejs.org/en/) v8.6.0 or later, and NPM version 5.6.0 or later (which is usually automatically installed with the required version of Node).
 
 ```
@@ -23,11 +24,6 @@ npm i <local-dir>/sdk-ionic-capacitor
 npx cap sync
 ```
 
+### Configuring the build for Android
 
-### Variables
-
-This plugin will use the following project variables (defined in your app's `variables.gradle` file):
-
-- `minSdkVersion = 24`
-- `compileSdkVersion = 31`
-- `targetSdkVersion = 31`
+Change the build config variables defined in `variables.gradle` file

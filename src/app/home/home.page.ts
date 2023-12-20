@@ -8,9 +8,8 @@ import {
   LocationWithDeviation,
   Result,
 } from "hypertrack-sdk-ionic-capacitor";
-import { AlertController } from "@ionic/angular";
+import { AlertController, Platform } from "@ionic/angular";
 import { ChangeDetectorRef } from "@angular/core";
-import { Platform } from "@ionic/angular";
 
 @Component({
   selector: "app-home",
@@ -35,22 +34,38 @@ export class HomePage implements OnDestroy {
   ) {
     platform.ready().then((readySource) => {
       console.log("Platform ready", readySource);
-      this.initialize();
+      this.initialize(platform);
     });
   }
 
-  async initialize() {
+  async initialize(platform: Platform) {
     try {
       this.deviceId = await HyperTrack.getDeviceId();
       console.log(`Device Id: ${this.deviceId}`);
 
-      let name = "Quickstart Ionic";
+      let name = "Quickstart Ionic Capacitor";
       console.log("Setting name to", name);
       HyperTrack.setName(name);
 
+      let platformName = "";
+      if (platform.is("android")) {
+        platformName = "android";
+      } else if (platform.is("ios")) {
+        platformName = "ios";
+      }
       let metadata = {
+        /**
+         * `driver_handle` is used to link the device and the driver.
+         * You can use any unique user identifier here.
+         * The recommended way is to set it on app login in set it to null on logout
+         * (to remove the link between the device and the driver)
+         **/
+        driver_handle: `test_driver_quickstart_ionic_capacitor_${platformName}`,
+        /**
+         * You can also add any custom data to the metadata.
+         */
         source: name,
-        value: Math.random(),
+        employee_id: Math.round(Math.random() * 10000),
       };
       console.log("Setting metadata to", JSON.stringify(metadata));
       HyperTrack.setMetadata(metadata);
