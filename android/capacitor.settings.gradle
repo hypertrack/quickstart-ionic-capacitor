@@ -6,4 +6,4 @@ include ':capacitor-app'
 project(':capacitor-app').projectDir = new File('../node_modules/@capacitor/app/android')
 
 include ':hypertrack-sdk-ionic-capacitor'
-project(':hypertrack-sdk-ionic-capacitor').projectDir = new File('../../sdk-ionic-capacitor/android')
+project(':hypertrack-sdk-ionic-capacitor').projectDir = new File('../node_modules/hypertrack-sdk-ionic-capacitor/android')
