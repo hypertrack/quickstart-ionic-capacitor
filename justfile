@@ -1,5 +1,6 @@
-alias al := add-plugin-local
 alias ag := add-plugin-from-github
+alias al := add-plugin-local
+alias ap := add-plugin
 alias oi := open-ios
 alias os := open-src
 alias r := refresh-plugin-in-node_modules
@@ -9,6 +10,9 @@ alias sa := sync-android
 alias si := sync-ios
 
 LOCAL_PLUGIN_PATH := "../sdk-ionic-capacitor"
+
+add-plugin version: hooks
+    npm i hypertrack-sdk-ionic-capacitor@{{version}} --save
 
 add-plugin-local: hooks
     npm i {{LOCAL_PLUGIN_PATH}} --save
