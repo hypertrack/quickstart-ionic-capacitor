@@ -1,3 +1,4 @@
+alias a := add-plugin
 alias ag := add-plugin-from-github
 alias al := add-plugin-local
 alias ap := add-plugin
@@ -12,11 +13,13 @@ alias si := sync-ios
 LOCAL_PLUGIN_PATH := "../sdk-ionic-capacitor"
 
 add-plugin version: hooks
-    npm i hypertrack-sdk-ionic-capacitor@{{version}} --save
+    npm i --save-exact hypertrack-sdk-ionic-capacitor@{{version}} --save
+    just pod-install
 
 add-plugin-local: hooks
     npm i {{LOCAL_PLUGIN_PATH}} --save
     just build-local
+    just pod-install
 
 add-plugin-from-github branch: hooks
     @echo "Adding plugin from github does not work for Ionic Capacitor. Use 'just al' to use local dependency"
@@ -47,6 +50,14 @@ open-ios: hooks
 open-src: hooks
     code src/app/home/home.page.ts
 
+pod-install:
+    #!/usr/bin/env sh
+    set -euo pipefail
+    cd ios/App
+    rm Podfile.lock
+    pod install --repo-update
+    cd ../..
+
 refresh-deps: hooks
     rm -r node_modules
     rm package-lock.json
@@ -58,6 +69,7 @@ refresh-plugin-in-node_modules:
 
 run-android target="": sync-android hooks
     #!/usr/bin/env sh
+    set -euo pipefail
     if [ -z "{{target}}" ]; then \
         ionic capacitor run android; \
     else \
