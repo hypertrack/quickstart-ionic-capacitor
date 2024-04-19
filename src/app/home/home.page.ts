@@ -7,6 +7,7 @@ import {
   Location,
   LocationWithDeviation,
   Result,
+  OrderStatus,
 } from "hypertrack-sdk-ionic-capacitor";
 import { AlertController, Platform } from "@ionic/angular";
 import { ChangeDetectorRef } from "@angular/core";
@@ -104,7 +105,7 @@ export class HomePage implements OnDestroy {
 
   async addGeotag() {
     let orderHandle = "test_order";
-    let orderStatus = {
+    let orderStatus: OrderStatus = {
       type: "orderStatusCustom",
       value: "test_status",
     };
@@ -119,7 +120,7 @@ export class HomePage implements OnDestroy {
 
   async addGeotagWithExpectedLocation() {
     let orderHandle = "test_order";
-    let orderStatus = {
+    let orderStatus: OrderStatus = {
       type: "orderStatusCustom",
       value: "test_status",
     };
