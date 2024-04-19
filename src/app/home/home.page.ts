@@ -103,16 +103,26 @@ export class HomePage implements OnDestroy {
   }
 
   async addGeotag() {
+    let orderHandle = "test_order";
+    let orderStatus = {
+      type: "orderStatusCustom",
+      value: "test_status",
+    };
     let data = {
       geotag: "data",
     };
-    let result = await HyperTrack.addGeotag(data);
+    let result = await HyperTrack.addGeotag(orderHandle, orderStatus, data);
     let resultText = getLocationResponseText(result);
     console.log("Geotag:", resultText);
     this.showAlert("Geotag", resultText);
   }
 
   async addGeotagWithExpectedLocation() {
+    let orderHandle = "test_order";
+    let orderStatus = {
+      type: "orderStatusCustom",
+      value: "test_status",
+    };
     let data = {
       geotag: "data",
       withExpectedLocation: "true",
@@ -121,7 +131,12 @@ export class HomePage implements OnDestroy {
       latitude: 37.33182,
       longitude: -122.03118,
     };
-    let result = await HyperTrack.addGeotag(data, expectedLocation);
+    let result = await HyperTrack.addGeotag(
+      orderHandle,
+      orderStatus,
+      data,
+      expectedLocation
+    );
     let resultText = getLocationWithDeviationResponseText(result);
     console.log("Geotag with expected location:", resultText);
     this.showAlert("Geotag with expected location", resultText);
