@@ -33,6 +33,10 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths"></meta-data>
         </provider>
+
+        <meta-data
+            android:name="HyperTrackPublishableKey"
+            android:value="Paste_your_publishable_key_here" />
     </application>
 
     <!-- Permissions -->
