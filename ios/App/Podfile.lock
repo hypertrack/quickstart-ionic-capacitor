@@ -1,9 +1,9 @@
 PODS:
-  - Capacitor (5.6.0):
+  - Capacitor (6.0.0):
     - CapacitorCordova
-  - CapacitorApp (5.0.6):
+  - CapacitorApp (6.0.0):
     - Capacitor
-  - CapacitorCordova (5.6.0)
+  - CapacitorCordova (6.0.0)
   - HyperTrack (5.5.3)
   - HypertrackSdkIonicCapacitor (3.2.2):
     - Capacitor
@@ -30,9 +30,9 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/hypertrack-sdk-ionic-capacitor"
 
 SPEC CHECKSUMS:
-  Capacitor: ebfc16cdb8116d04c101686b080342872da42d43
-  CapacitorApp: 024e1b1bea5f883d79f6330d309bc441c88ad04a
-  CapacitorCordova: 931b48fcdbc9bc985fc2f16cec9f77c794a27729
+  Capacitor: 559d073c4ca6c27f8e7002c807eea94c3ba435a9
+  CapacitorApp: 9d53aec7101f7b030a950c5bdc4df8612576b279
+  CapacitorCordova: 8c4bfdf69368512e85b1d8b724dd7546abeb30af
   HyperTrack: 555080e015576c0e4ede457bc330e3a259915f91
   HypertrackSdkIonicCapacitor: 1c2f257aafdd55c8b5fd8d10d42f638e3b14b35a
 
