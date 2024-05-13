@@ -62,7 +62,7 @@ pod-install:
     #!/usr/bin/env sh
     set -euo pipefail
     cd ios/App
-    rm Podfile.lock
+    rm -f Podfile.lock
     pod install --repo-update
     cd ../..
 
