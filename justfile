@@ -9,6 +9,14 @@ alias ra := run-android
 alias s := sync
 alias sa := sync-android
 alias si := sync-ios
+alias us := update-sdk
+
+REPOSITORY_NAME := "quickstart-ionic-capacitor"
+SDK_NAME := "HyperTrack SDK Ionic Capacitor"
+
+# Source: https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
+# \ are escaped
+SEMVER_REGEX := "(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?"
 
 LOCAL_PLUGIN_PATH := "../sdk-ionic-capacitor"
 
@@ -87,3 +95,12 @@ sync-android: hooks build-local
 
 update-deps: hooks
     npx npm-check-updates -u
+
+update-sdk version: hooks
+    git checkout -b update-sdk-{{version}}
+    just add-plugin {{version}}
+    git commit -am "Update {{SDK_NAME}} to {{version}}"
+    just open-github-prs
+
+version:
+    @cat package.json | grep hypertrack-sdk-ionic-capacitor | head -n 1 | grep -o -E '{{SEMVER_REGEX}}'
