@@ -52,6 +52,9 @@ hooks:
     chmod +x .githooks/pre-push
     git config core.hooksPath .githooks
 
+open-github-prs:
+    open "https://github.com/hypertrack/{{REPOSITORY_NAME}}/pulls"
+
 open-ios: hooks
     open ios/App/App.xcworkspace
 
@@ -62,7 +65,7 @@ pod-install:
     #!/usr/bin/env sh
     set -euo pipefail
     cd ios/App
-    rm Podfile.lock
+    rm -f Podfile.lock
     pod install --repo-update
     cd ../..
 

@@ -1,7 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    namespace "com.hypertrack.quickstart.ionic.capacitor"
+    compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "com.hypertrack.quickstart.ionic.capacitor"
         minSdkVersion rootProject.ext.minSdkVersion
