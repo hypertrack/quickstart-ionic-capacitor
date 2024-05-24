@@ -10,6 +10,8 @@ alias s := sync
 alias sa := sync-android
 alias si := sync-ios
 alias us := update-sdk
+alias v := version
+alias va := version-android
 
 REPOSITORY_NAME := "quickstart-ionic-capacitor"
 SDK_NAME := "HyperTrack SDK Ionic Capacitor"
@@ -107,3 +109,10 @@ update-sdk version: hooks
 
 version:
     @cat package.json | grep hypertrack-sdk-ionic-capacitor | head -n 1 | grep -o -E '{{SEMVER_REGEX}}'
+    
+version-android:
+    #!/usr/bin/env sh
+    set -euo pipefail
+    cd android
+    ./gradlew app:dependencies | grep "com.hypertrack:sdk-android" | head -n 1 | grep -o -E '{{SEMVER_REGEX}}'
+    cd ..
