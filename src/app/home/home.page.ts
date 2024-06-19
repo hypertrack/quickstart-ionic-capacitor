@@ -42,11 +42,21 @@ export class HomePage implements OnDestroy {
   async initialize(platform: Platform) {
     try {
       this.deviceId = await HyperTrack.getDeviceId();
-      console.log(`Device Id: ${this.deviceId}`);
+      console.log("getDeviceId", this.deviceId);
 
-      let name = "Quickstart Ionic Capacitor";
-      console.log("Setting name to", name);
+      const name = "Quickstart Ionic Capacitor";
       HyperTrack.setName(name);
+      console.log("setName", name);
+
+      const metadata = {
+        /**
+         * Metadata is an custom data that is linked to the device.
+         */
+        source: name,
+        employee_id: Math.round(Math.random() * 10000),
+      };
+      HyperTrack.setMetadata(metadata);
+      console.log("setMetadata", metadata);
 
       let platformName = "";
       if (platform.is("android")) {
@@ -54,22 +64,19 @@ export class HomePage implements OnDestroy {
       } else if (platform.is("ios")) {
         platformName = "ios";
       }
-      let metadata = {
-        /**
-         * `driver_handle` is used to link the device and the driver.
-         * You can use any unique user identifier here.
-         * The recommended way is to set it on app login in set it to null on logout
-         * (to remove the link between the device and the driver)
-         **/
-        driver_handle: `test_driver_quickstart_ionic_capacitor_${platformName}`,
-        /**
-         * You can also add any custom data to the metadata.
-         */
-        source: name,
-        employee_id: Math.round(Math.random() * 10000),
-      };
-      console.log("Setting metadata to", JSON.stringify(metadata));
-      HyperTrack.setMetadata(metadata);
+      /**
+       * Worker handle is used to link the device and the worker.
+       * You can use any unique user identifier here.
+       * The recommended way is to set it on app login in set it to null on logout
+       * (to remove the link between the device and the worker)
+       **/
+      HyperTrack.setWorkerHandle(
+        `test_driver_quickstart_ionic_capacitor_${platformName}`
+      );
+      console.log("workerHandle is set");
+
+      const workerHandle = await HyperTrack.getWorkerHandle();
+      console.log("getWorkerHandle", workerHandle);
 
       HyperTrack.subscribeToErrors((errors: HyperTrackError[]) => {
         let result = getErrorsText(errors);
