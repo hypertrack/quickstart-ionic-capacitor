@@ -71,7 +71,7 @@ export class HomePage implements OnDestroy {
        * (to remove the link between the device and the worker)
        **/
       HyperTrack.setWorkerHandle(
-        `test_driver_quickstart_react_native_${platformName}`
+        `test_driver_quickstart_ionic_capacitor_${platformName}`
       );
       console.log("workerHandle is set");
 
