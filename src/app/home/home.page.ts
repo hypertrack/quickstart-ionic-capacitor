@@ -8,6 +8,7 @@ import {
   LocationWithDeviation,
   Result,
   OrderStatus,
+  Order,
 } from "hypertrack-sdk-ionic-capacitor";
 import { AlertController, Platform } from "@ionic/angular";
 import { ChangeDetectorRef } from "@angular/core";
@@ -23,10 +24,12 @@ export class HomePage implements OnDestroy {
   isTrackingSubscription: Subscription;
   isAvailableSubscription: Subscription;
   locationSubscription: Subscription;
+  ordersSubscription: Subscription;
   errorsText = "N/A";
   isTrackingText = "N/A";
   isAvailableText = "N/A";
   locationText = "N/A";
+  ordersText = "N/A";
 
   constructor(
     private alertController: AlertController,
@@ -100,7 +103,12 @@ export class HomePage implements OnDestroy {
       HyperTrack.subscribeToLocation((locationResult) => {
         console.log("location listener", locationResult);
         this.locationText = getLocationResponseText(locationResult);
-        console.log("location listener", location);
+        this.changeRef.detectChanges();
+      });
+
+      HyperTrack.subscribeToOrders((orders) => {
+        console.log("orders listener", orders);
+        this.ordersText = getOrdersResponseText(orders);
         this.changeRef.detectChanges();
       });
 
@@ -186,6 +194,12 @@ export class HomePage implements OnDestroy {
     this.showAlert("Name", name);
   }
 
+  async getOrders() {
+    let result = await HyperTrack.getOrders();
+    console.log("Orders:", result);
+    this.showAlert("Orders", getOrdersResponseText(result));
+  }
+
   async locate() {
     HyperTrack.locate((locationResult: Result<Location, HyperTrackError[]>) => {
       let result = getLocateResponseText(locationResult);
@@ -229,6 +243,17 @@ function getLocateResponseText(response: Result<Location, HyperTrackError[]>) {
   }
 }
 
+function getLocationErrorResponseText(locationError: LocationError) {
+  switch (locationError.type) {
+    case "notRunning":
+      return "Not running";
+    case "starting":
+      return "Starting";
+    case "errors":
+      return `Errors:\n${getErrorsText(locationError.value)}`;
+  }
+}
+
 function getLocationResponseText(
   response: Result<Location, LocationError>
 ): string {
@@ -240,16 +265,7 @@ function getLocationResponseText(
         4
       )}`;
     case "failure":
-      switch (response.value.type) {
-        case "notRunning":
-          return "Not running";
-        case "starting":
-          return "Starting";
-        case "errors":
-          return `Errors:\n${getErrorsText(response.value.value)}`;
-      }
-    default:
-      return `Unknown response: $response`;
+      return getLocationErrorResponseText(response.value);
   }
 }
 
@@ -264,14 +280,28 @@ function getLocationWithDeviationResponseText(
         4
       )}\nDeviation: ${response.value.deviation}`;
     case "failure":
-      switch (response.value.type) {
-        case "notRunning":
-          return "Not running";
-        case "starting":
-          return "Starting";
-        case "errors":
-          return `Errors:\n${getErrorsText(response.value.value)}`;
-      }
+      return getLocationErrorResponseText(response.value);
+  }
+}
+
+function getOrdersResponseText(orders: Map<string, Order>) {
+  if (orders.size === 0) {
+    return "No orders";
+  } else {
+    return Array.from(orders)
+      .map(([_, order]) => {
+        let isInsideGeofenceText: string;
+        switch (order.isInsideGeofence.type) {
+          case "success":
+            isInsideGeofenceText = order.isInsideGeofence.value ? "inside" : "outside";
+            break;
+          case "failure":
+            isInsideGeofenceText = getLocationErrorResponseText(order.isInsideGeofence.value);
+            break;
+        }
+        return `Order: ${order.orderHandle}\nIsInsideGeofence: ${isInsideGeofenceText}`;
+      })
+      .join("\n");
   }
 }
 
