@@ -74,7 +74,7 @@ export class HomePage implements OnDestroy {
        * (to remove the link between the device and the worker)
        **/
       HyperTrack.setWorkerHandle(
-        `test_driver_quickstart_ionic_capacitor_${platformName}`
+        `test_worker_quickstart_ionic_capacitor_${platformName}`
       );
       console.log("workerHandle is set");
 
@@ -293,10 +293,14 @@ function getOrdersResponseText(orders: Map<string, Order>) {
         let isInsideGeofenceText: string;
         switch (order.isInsideGeofence.type) {
           case "success":
-            isInsideGeofenceText = order.isInsideGeofence.value ? "inside" : "outside";
+            isInsideGeofenceText = order.isInsideGeofence.value
+              ? "inside"
+              : "outside";
             break;
           case "failure":
-            isInsideGeofenceText = getLocationErrorResponseText(order.isInsideGeofence.value);
+            isInsideGeofenceText = getLocationErrorResponseText(
+              order.isInsideGeofence.value
+            );
             break;
         }
         return `Order: ${order.orderHandle}\nIsInsideGeofence: ${isInsideGeofenceText}`;
