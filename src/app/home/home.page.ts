@@ -293,9 +293,7 @@ function getOrdersResponseText(orders: Map<string, Order>) {
         let isInsideGeofenceText: string;
         switch (order.isInsideGeofence.type) {
           case "success":
-            isInsideGeofenceText = order.isInsideGeofence.value
-              ? "inside"
-              : "outside";
+            isInsideGeofenceText = order.isInsideGeofence.value.toString();
             break;
           case "failure":
             isInsideGeofenceText = getLocationErrorResponseText(
