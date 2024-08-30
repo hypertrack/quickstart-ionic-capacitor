@@ -22,14 +22,17 @@ SEMVER_REGEX := "(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d
 
 LOCAL_PLUGIN_PATH := "../sdk-ionic-capacitor"
 
-add-plugin version: hooks
+add-plugin version: hooks _delete-angular-cache
     npm i --save-exact hypertrack-sdk-ionic-capacitor@{{version}} --save
     just pod-install
+    just sync
 
-add-plugin-local: hooks
+add-plugin-local: hooks _delete-angular-cache
+    rm -rf node_modules/hypertrack-sdk-ionic-capacitor
     npm i {{LOCAL_PLUGIN_PATH}} --save
     just build-local
     just pod-install
+    just sync
 
 add-plugin-from-github branch: hooks
     @echo "Adding plugin from github does not work for Ionic Capacitor. Use 'just al' to use local dependency"
@@ -89,13 +92,13 @@ run-android target="": sync-android hooks
         ionic capacitor run android --target {{target}}; \
     fi
 
-sync: hooks build-local
+sync: hooks _delete-www build-local 
     ionic capacitor sync
 
-sync-ios: hooks build-local
+sync-ios: hooks _delete-www build-local
     ionic capacitor sync ios
 
-sync-android: hooks build-local
+sync-android: hooks _delete-www build-local
     ionic capacitor sync android
 
 update-deps: hooks
@@ -116,3 +119,10 @@ version-android:
     cd android
     ./gradlew app:dependencies | grep "com.hypertrack:sdk-android" | head -n 1 | grep -o -E '{{SEMVER_REGEX}}'
     cd ..
+
+_delete-www:
+    rm -rf www
+
+# fixes issues with packing outdated code to the app
+_delete-angular-cache:
+    rm -rf .angular

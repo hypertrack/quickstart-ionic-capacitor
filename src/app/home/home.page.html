@@ -34,6 +34,12 @@
 
     <ion-row>
       <ion-col>
+        <div class="content">Orders: {{ordersText}}</div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
         <ion-button color="success" expand="block" (click)="setIsTracking(true)">Start Tracking</ion-button>
       </ion-col>
       <ion-col>
@@ -99,6 +105,12 @@
       </ion-col>
       <ion-col>
         <ion-button expand="block" (click)="getName()">Get name</ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-button expand="block" (click)="getOrders()">Get orders</ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>
