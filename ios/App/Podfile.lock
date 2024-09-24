@@ -5,7 +5,7 @@ PODS:
     - Capacitor
   - CapacitorCordova (6.0.0)
   - HyperTrack (5.8.0)
-  - HypertrackSdkIonicCapacitor (3.6.1):
+  - HypertrackSdkIonicCapacitor (3.6.2):
     - Capacitor
     - HyperTrack (= 5.8.0)
 
@@ -34,7 +34,7 @@ SPEC CHECKSUMS:
   CapacitorApp: 9d53aec7101f7b030a950c5bdc4df8612576b279
   CapacitorCordova: 8c4bfdf69368512e85b1d8b724dd7546abeb30af
   HyperTrack: 900840194d24a21e393f306517e26519909b6d47
-  HypertrackSdkIonicCapacitor: 23dcba379a4e40e43ae5967cb516479e973f223e
+  HypertrackSdkIonicCapacitor: 37da2871d5af25ec8ca22e4706454814c67c7090
 
 PODFILE CHECKSUM: be937eaf53bbbb98f9222cc1b1836915caae3bee
 
