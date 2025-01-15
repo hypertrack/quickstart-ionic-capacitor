@@ -113,5 +113,20 @@
         <ion-button expand="block" (click)="getOrders()">Get orders</ion-button>
       </ion-col>
     </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-button expand="block" (click)="setAllowMockLocation(true)">Set allow mock location</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button expand="block" (click)="setAllowMockLocation(false)">Set disallow mock location</ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-button expand="block" (click)="getAllowMockLocation()">Get allow mock location</ion-button>
+      </ion-col>
+    </ion-row>
   </ion-grid>
 </ion-content>

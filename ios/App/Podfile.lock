@@ -4,16 +4,16 @@ PODS:
   - CapacitorApp (6.0.0):
     - Capacitor
   - CapacitorCordova (6.0.0)
-  - HyperTrack (5.8.0)
-  - HypertrackSdkIonicCapacitor (3.6.2):
+  - HyperTrack (5.9.1)
+  - HypertrackSdkIonicCapacitor (3.7.1):
     - Capacitor
-    - HyperTrack (= 5.8.0)
+    - HyperTrack (= 5.9.1)
 
 DEPENDENCIES:
   - "Capacitor (from `../../node_modules/@capacitor/ios`)"
   - "CapacitorApp (from `../../node_modules/@capacitor/app`)"
   - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
-  - HypertrackSdkIonicCapacitor (from `../../node_modules/hypertrack-sdk-ionic-capacitor`)
+  - HypertrackSdkIonicCapacitor (from `../../../sdk-ionic-capacitor`)
 
 SPEC REPOS:
   trunk:
@@ -27,15 +27,15 @@ EXTERNAL SOURCES:
   CapacitorCordova:
     :path: "../../node_modules/@capacitor/ios"
   HypertrackSdkIonicCapacitor:
-    :path: "../../node_modules/hypertrack-sdk-ionic-capacitor"
+    :path: "../../../sdk-ionic-capacitor"
 
 SPEC CHECKSUMS:
   Capacitor: 559d073c4ca6c27f8e7002c807eea94c3ba435a9
   CapacitorApp: 9d53aec7101f7b030a950c5bdc4df8612576b279
   CapacitorCordova: 8c4bfdf69368512e85b1d8b724dd7546abeb30af
-  HyperTrack: 900840194d24a21e393f306517e26519909b6d47
-  HypertrackSdkIonicCapacitor: 37da2871d5af25ec8ca22e4706454814c67c7090
+  HyperTrack: 9918c94ba18f00da79ee0d681a728fb21b098781
+  HypertrackSdkIonicCapacitor: 70235eb00f2207aabf453d9a20d52cd35f06e137
 
-PODFILE CHECKSUM: be937eaf53bbbb98f9222cc1b1836915caae3bee
+PODFILE CHECKSUM: ea4026f9baf865cab5553b2f39ec092fc8b3214a
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2

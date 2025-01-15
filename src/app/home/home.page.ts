@@ -158,6 +158,12 @@ export class HomePage implements OnDestroy {
     this.showAlert("Geotag with expected location", resultText);
   }
 
+  async getAllowMockLocation() {
+    const allowMockLocation = await HyperTrack.getAllowMockLocation();
+    console.log("allowMockLocation", allowMockLocation);
+    this.showAlert("allowMockLocation", `${allowMockLocation}`);
+  }
+
   async getErrors() {
     let errors = await HyperTrack.getErrors();
     let result = getErrorsText(errors);
@@ -207,6 +213,10 @@ export class HomePage implements OnDestroy {
       this.showAlert("Locate:", result);
     });
     console.log("Locate started");
+  }
+
+  async setAllowMockLocation(allowMockLocation: boolean) {
+    HyperTrack.setAllowMockLocation(allowMockLocation);
   }
 
   async setIsAvailable(isAvailable: boolean) {
