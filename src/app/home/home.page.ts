@@ -106,9 +106,9 @@ export class HomePage implements OnDestroy {
         this.changeRef.detectChanges();
       });
 
-      HyperTrack.subscribeToOrders((orders) => {
+      HyperTrack.subscribeToOrders(async (orders) => {
         console.log("orders listener", orders);
-        this.ordersText = getOrdersResponseText(orders);
+        this.ordersText = await getOrdersResponseText(orders);
         this.changeRef.detectChanges();
       });
 
@@ -201,9 +201,10 @@ export class HomePage implements OnDestroy {
   }
 
   async getOrders() {
-    let result = await HyperTrack.getOrders();
+    const result = await HyperTrack.getOrders();
     console.log("Orders:", result);
-    this.showAlert("Orders", getOrdersResponseText(result));
+    const text = await getOrdersResponseText(result);
+    this.showAlert("Orders", text);
   }
 
   async locate() {
@@ -294,26 +295,27 @@ function getLocationWithDeviationResponseText(
   }
 }
 
-function getOrdersResponseText(orders: Map<string, Order>) {
+async function getOrdersResponseText(orders: Map<string, Order>) {
   if (orders.size === 0) {
     return "No orders";
   } else {
-    return Array.from(orders)
-      .map(([_, order]) => {
+    return await Promise.all(
+      Array.from(orders).map(async ([_, order]) => {
         let isInsideGeofenceText: string;
-        switch (order.isInsideGeofence.type) {
+        const isInsideGeofence = await order.isInsideGeofence();
+        switch (isInsideGeofence.type) {
           case "success":
-            isInsideGeofenceText = order.isInsideGeofence.value.toString();
+            isInsideGeofenceText = isInsideGeofence.value.toString();
             break;
           case "failure":
             isInsideGeofenceText = getLocationErrorResponseText(
-              order.isInsideGeofence.value
+              isInsideGeofence.value
             );
             break;
         }
         return `Order: ${order.orderHandle}\nIsInsideGeofence: ${isInsideGeofenceText}`;
       })
-      .join("\n");
+    ).then((texts) => texts.join("\n"));
   }
 }
 
