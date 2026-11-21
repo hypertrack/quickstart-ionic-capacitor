@@ -1,7 +1,7 @@
 # Ionic Capacitor Quickstart for HyperTrack SDK
 
 [![GitHub](https://img.shields.io/github/license/hypertrack/quickstart-ionic-capacitor?color=orange)](./LICENSE)
-[![hypertrack-sdk-ionic-capacitor](https://img.shields.io/badge/hypertrack_sdk_ionic_capacitor-1.0.0-brightgreen.svg)](https://github.com/hypertrack/sdk-ionic-capacitor)
+[![hypertrack-sdk-ionic-capacitor](https://img.shields.io/badge/hypertrack_sdk_ionic_capacitor-4.3.0-brightgreen.svg)](https://github.com/hypertrack/sdk-ionic-capacitor)
 
 [HyperTrack](https://www.hypertrack.com/) lets you add live location tracking to your mobile app. Live location is made available along with ongoing activity, tracking controls and tracking outage with reasons. 
 
