@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.0.7",
-    "@angular/cli": "^17.3.11",
+    "@angular/cli": "^22.2.6",
     "@capacitor/cli": "^7.0.0",
     "@ionic/angular-toolkit": "^10.0.0"
   },
